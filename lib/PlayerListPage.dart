@@ -83,7 +83,15 @@ class _PlayerListPageState extends State<PlayerListPage> {
                 return 
                 ListTile(
   title: Text(players[index]["name"] ?? ""),
-  subtitle: Text(players[index]["club"] ?? ""),
+ subtitle: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(players[index]["club"] ?? ""),
+    Text(players[index]["salary"] ?? ""),
+    Text(players[index]["number"] ?? ""),
+  ],
+),
+
   trailing: Row(
     mainAxisSize: MainAxisSize.min,
     children: [

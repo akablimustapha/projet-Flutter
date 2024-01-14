@@ -13,6 +13,8 @@ class EditPlayerPage extends StatefulWidget {
 class _EditPlayerPageState extends State<EditPlayerPage> {
   late TextEditingController playerNameController;
   late TextEditingController playerClubController;
+  late TextEditingController playerNumbercontroller;
+  late TextEditingController playerSalarycontroller;
 
   @override
   void initState() {
@@ -27,6 +29,9 @@ class _EditPlayerPageState extends State<EditPlayerPage> {
       setState(() {
         playerNameController = TextEditingController(text: playerInfo["name"]);
         playerClubController = TextEditingController(text: playerInfo["club"]);
+        playerNumbercontroller = TextEditingController(text: playerInfo["number"]);
+        playerSalarycontroller = TextEditingController(text: playerInfo["salary"]);
+         
       });
     }
   }
@@ -52,6 +57,16 @@ class _EditPlayerPageState extends State<EditPlayerPage> {
               decoration: InputDecoration(labelText: "Club du Joueur"),
             ),
             SizedBox(height: 20),
+            TextField(
+              controller: playerNumbercontroller,
+              decoration: InputDecoration(labelText: "Number du Joueur"),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: playerSalarycontroller,
+              decoration: InputDecoration(labelText: "Satary du Joueur"),
+            ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Appeler la fonction pour mettre à jour le joueur dans la base de données
@@ -67,10 +82,12 @@ class _EditPlayerPageState extends State<EditPlayerPage> {
 
   void updatePlayer() async {
     // Appeler la fonction pour mettre à jour le joueur dans la base de données
-    if (playerNameController.text.isNotEmpty && playerClubController.text.isNotEmpty) {
+    if (playerNameController.text.isNotEmpty && playerClubController.text.isNotEmpty && playerNumbercontroller.text.isNotEmpty && playerSalarycontroller.text.isNotEmpty) {
       await Service().updatePlayer(widget.playerId, {
         "name": playerNameController.text,
         "club": playerClubController.text,
+        "number": playerNumbercontroller.text,
+        "salary": playerSalarycontroller.text,
       });
 
       ScaffoldMessenger.of(context).showSnackBar(

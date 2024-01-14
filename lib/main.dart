@@ -6,6 +6,7 @@ import 'firebase_options.dart';
 import 'package:flutter_login/register_screen.dart';
 
 
+
 void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -21,8 +22,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
     
       home: HomePage(),
-     // title : "hhf",
-//debugShowCheck
+     title: "hhf",
+  debugShowCheckedModeBanner: false,
     );
   }
 }

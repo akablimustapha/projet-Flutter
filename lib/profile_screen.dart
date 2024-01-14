@@ -13,6 +13,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController playernamecontroller = TextEditingController();
+  TextEditingController clubnamecontroller = TextEditingController();
+  TextEditingController playernumbercontroller = TextEditingController();
+  TextEditingController playersalarycontroller = TextEditingController();
+
   uploadData() async {
     Map<String, dynamic> uploaddata = {
       "club": clubnamecontroller.text,
@@ -22,6 +27,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     };
 
     await Service().addPlayer(uploaddata);
+
+    // Réinitialiser les contrôleurs de texte
+    playernamecontroller.clear();
+    clubnamecontroller.clear();
+    playernumbercontroller.clear();
+    playersalarycontroller.clear();
+
     Fluttertoast.showToast(
       msg: "Data Uploaded Successfully",
       toastLength: Toast.LENGTH_SHORT,
@@ -33,60 +45,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  TextEditingController playernamecontroller = TextEditingController();
-  TextEditingController clubnamecontroller = TextEditingController();
-  TextEditingController playernumbercontroller = TextEditingController();
-  TextEditingController playersalarycontroller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-  title: Text(""),
-  backgroundColor: Colors.teal,
-  elevation: 0,
-  actions: [
-    // Bouton de déconnexion dans l'appBar
-    IconButton(
-      icon: Icon(Icons.exit_to_app),
-      onPressed: () {
-        // Afficher une boîte de dialogue de confirmation
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Déconnexion"),
-              content: Text("Êtes-vous sûr de vouloir vous déconnecter?"),
-              actions: [
-                // Bouton Annuler
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Fermer la boîte de dialogue
-                  },
-                  child: Text("Annuler"),
-                ),
-                // Bouton Déconnexion
-                TextButton(
-                  onPressed: () {
-                    // Action à effectuer lors de la déconnexion
-                   Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  
-                  builder: (context) => const HomePage(),
-                  ),  
+      appBar: AppBar(
+        title: Text(""),
+        backgroundColor: Colors.teal,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Déconnexion"),
+                    content: Text("Êtes-vous sûr de vouloir vous déconnecter?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Annuler"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        },
+                        child: Text("Déconnexion"),
+                      ),
+                    ],
                   );
-                  },
-                  child: Text("Déconnexion"),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    ),
-  ],
-),
-
+                },
+              );
+            },
+          ),
+        ],
+      ),
       body: Container(
         padding: EdgeInsets.all(20.0),
         child: Column(
@@ -183,85 +183,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-               ElevatedButton(
-  onPressed: () {
-    // Action à effectuer lorsqu'on appuie sur le bouton
-    uploadData();
-  },
-  style: ElevatedButton.styleFrom(
-    primary: Colors.teal, // Couleur de fond du bouton
-    onPrimary: Colors.white, // Couleur du texte du bouton
-    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25.0), // Bord arrondi du bouton
-    ),
-    elevation: 5.0, // Effet d'élévation du bouton
-  ),
-  child: Text(
-    "Create",
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 18.0,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
- ),
-
-    ElevatedButton(
-   onPressed: () {
-    // Action à effectuer lorsqu'on appuie sur le bouton
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const ReadData(),
-      ),
-    );
-  },
-  style: ElevatedButton.styleFrom(
-    primary: Colors.teal, // Couleur de fond du bouton
-    onPrimary: Colors.white, // Couleur du texte du bouton
-    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25.0), // Bord arrondi du bouton
-    ),
-    elevation: 5.0, // Effet d'élévation du bouton
-  ),
-  child: Text(
-    "Search",
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 18.0,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-),
-ElevatedButton(
-  onPressed: () {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const PlayerListPage(),
-      ),
-    );
-  },
-  style: ElevatedButton.styleFrom(
-    primary: Colors.teal,
-    onPrimary: Colors.white,
-    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25.0),
-    ),
-    elevation: 5.0,
-  ),
-  child: Text(
-    "Voir la Liste des Joueurs",
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 18.0,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-),
-
-
+                ElevatedButton(
+                  onPressed: () {
+                    uploadData();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.teal,
+                    onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    elevation: 5.0,
+                  ),
+                  child: Text(
+                    "Create",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const ReadData(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.teal,
+                    onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    elevation: 5.0,
+                  ),
+                  child: Text(
+                    "Search",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const PlayerListPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.teal,
+                    onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    elevation: 5.0,
+                  ),
+                  child: Text(
+                    "Voir la Liste des Joueurs",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
